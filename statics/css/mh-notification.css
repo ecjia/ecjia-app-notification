@@ -5,8 +5,8 @@
 	border:1px solid #eee;	
 }
 .notice_list .panel-body{
-	padding-top:30px;
-	padding-bottom:30px;
+	padding-top:15px;
+	padding-bottom:15px;
 	border-bottom:1px solid #eee;
 }
 .notice_list .panel-body:last-child{

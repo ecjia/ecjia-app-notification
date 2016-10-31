@@ -27,7 +27,7 @@
 				<div class="msg_window">
 					<!-- {foreach from=$item.list item=val} -->
                   		<div class="panel-body">
-                    		<i class="fa fa-comment"></i>
+                    		<i class=" fontello-icon-comment"></i>
               				<span class="text-content">{$val.content}</span>
                             <span class="edit-range f_r">
                             	<span class="m_r5">{$val.created_time}</span>
