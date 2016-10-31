@@ -49,7 +49,7 @@ class admin extends ecjia_admin {
 					}
 				}
 				$type_list[$k]['list']  = $list;
-				$type_list[$k]['count'] = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['admin_id'])->where('type', $v['type'])->count();
+				$type_list[$k]['count'] = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['admin_id'])->where('type', $v['type'])->whereNull('read_at')->count();
 			}
 		}
 		$count = RC_DB::table('notifications')
