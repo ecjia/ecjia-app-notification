@@ -111,9 +111,9 @@ class mh_notification extends ecjia_merchant {
 			}
 		}
 		if ($update) {
-			$this->showmessage('标记成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('notification/mh_notification/init', array('status' => $status))));
+			return $this->showmessage('标记成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('notification/mh_notification/init', array('status' => $status))));
 		} else {
-			$this->showmessage('没有未读通知', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage('没有未读通知', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	
