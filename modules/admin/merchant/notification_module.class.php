@@ -9,12 +9,10 @@ class notification_module extends api_admin implements api_interface {
 	
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
-//     	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-//             return new ecjia_error(100, 'Invalid session');
-//         }
-		
-    	$_SESSION['staff_id'] = 57;
-    	
+    	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, 'Invalid session');
+        }
+        
     	$size = $this->requestData('pagination.count', 15);
     	$page = $this->requestData('pagination.page', 2);
     	
@@ -25,7 +23,7 @@ class notification_module extends api_admin implements api_interface {
     	//实例化分页
     	$page_row = new ecjia_page($record_count, $size, 6, '', $page);
     	$skip = $page_row->start_id-1;
-        $notifications_result = RC_DB::table('notifications')->whereIn('type', $type)->where('notifiable_type', 'orm_staff_user_model')->where('notifiable_id', $_SESSION['staff_id'])->skip($skip)->take($size)->get();
+        $notifications_result = RC_DB::table('notifications')->whereIn('type', $type)->where('notifiable_type', 'orm_staff_user_model')->where('notifiable_id', $_SESSION['staff_id'])->skip($skip)->take($size)->orderBy('created_at', 'dsec')->get();
         
         $notifications_list = array();
         
