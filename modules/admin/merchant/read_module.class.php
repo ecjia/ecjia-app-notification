@@ -30,7 +30,7 @@ class read_module extends api_admin implements api_interface {
     		return new ecjia_error('notification_already_read', '该消息已读！');
     	} 
     	
-    	$db->update(array('read_at' => RC_Time::local_date('Y-m-d H:i:s', RC_Time::gmtime())));
+    	RC_DB::table('notifications')->where('id', $message_id)->update(array('read_at' => RC_Time::local_date('Y-m-d H:i:s', RC_Time::gmtime())));
     	
 		return array();
 	 }	
