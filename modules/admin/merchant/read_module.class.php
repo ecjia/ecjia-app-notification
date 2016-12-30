@@ -22,7 +22,7 @@ class read_module extends api_admin implements api_interface {
     	if ($_SESSION['staff_id']) {
     		$db->where('notifiable_type', 'orm_staff_user_model')->where('notifiable_id', $_SESSION['staff_id']);
     	} elseif ($_SESSION['admin_id']) {
-//     		$db->where('notifiable_type', 'admin_user')->where('notifiable_id', $_SESSION['admin_id']);
+    	    
     	}
     	$notification_info = $db->where('id', $message_id)->first();
     	if (empty($notification_info)) {
