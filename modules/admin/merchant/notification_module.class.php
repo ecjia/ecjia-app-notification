@@ -6,6 +6,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author will.chen
  *
  */
+ 
 class notification_module extends api_admin implements api_interface {
 	
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
@@ -17,14 +18,25 @@ class notification_module extends api_admin implements api_interface {
     	$size = $this->requestData('pagination.count', 15);
     	$page = $this->requestData('pagination.page', 2);
     	
-    	$type = array('Ecjia\System\Notifications\ExpressAssign', 'Ecjia\System\Notifications\ExpressGrab', 'Ecjia\System\Notifications\ExpressPickup', 'Ecjia\System\Notifications\ExpressFinished');
-    	$type_label = array('Ecjia\System\Notifications\ExpressAssign' => 'express_assign', 'Ecjia\System\Notifications\ExpressGrab' => 'express_grab', 'Ecjia\System\Notifications\ExpressPickup' => 'express_pickup', 'Ecjia\System\Notifications\ExpressFinished' => 'express_finished');
-    	$record_count = RC_DB::table('notifications')->whereIn('type', $type)->where('notifiable_type', 'orm_staff_user_model')->where('notifiable_id', $_SESSION['staff_id'])->count();
+    	$type          = array('Ecjia\System\Notifications\ExpressAssign', 'Ecjia\System\Notifications\ExpressGrab', 'Ecjia\System\Notifications\ExpressPickup', 'Ecjia\System\Notifications\ExpressFinished');
+    	$type_label    = array('Ecjia\System\Notifications\ExpressAssign' => 'express_assign', 'Ecjia\System\Notifications\ExpressGrab' => 'express_grab', 'Ecjia\System\Notifications\ExpressPickup' => 'express_pickup', 'Ecjia\System\Notifications\ExpressFinished' => 'express_finished');
+    	$record_count  = RC_DB::table('notifications')
+                    	->whereIn('type', $type)
+                    	->where('notifiable_type', 'orm_staff_user_model')
+                    	->where('notifiable_id', $_SESSION['staff_id'])
+                    	->count();
     	
     	//实例化分页
-    	$page_row = new ecjia_page($record_count, $size, 6, '', $page);
-    	$skip = $page_row->start_id-1;
-        $notifications_result = RC_DB::table('notifications')->whereIn('type', $type)->where('notifiable_type', 'orm_staff_user_model')->where('notifiable_id', $_SESSION['staff_id'])->skip($skip)->take($size)->orderBy('created_at', 'dsec')->get();
+    	$page_row              = new ecjia_page($record_count, $size, 6, '', $page);
+    	$skip                  = $page_row->start_id-1;
+        $notifications_result  = RC_DB::table('notifications')
+                                ->whereIn('type', $type)
+                                ->where('notifiable_type', 'orm_staff_user_model')
+                                ->where('notifiable_id', $_SESSION['staff_id'])
+                                ->skip($skip)
+                                ->take($size)
+                                ->orderBy('created_at', 'dsec')
+                                ->get();
         
         $notifications_list = array();
         
@@ -34,13 +46,13 @@ class notification_module extends api_admin implements api_interface {
         		$data = json_decode($val['data'], true);
         		
         		$notifications_list[] = array(
-        						'id'	=> $val['id'],
-        						'type'	=> $type_label[$val['type']],
-        						'time'	=> $val['created_at'],
-        						'title'	=> $data['title'],
+        						'id'	        => $val['id'],
+        						'type'	        => $type_label[$val['type']],
+        						'time'	        => $val['created_at'],
+        						'title'	        => $data['title'],
         						'description'	=> $data['body'],
         						'read_status'	=> empty($val['read_at']) ? 'unread' : 'read',
-        						'data'	=> $data['data'],
+        						'data'	        => $data['data'],
         		);
         	}
         }

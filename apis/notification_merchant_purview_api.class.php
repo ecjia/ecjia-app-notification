@@ -6,6 +6,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author wutifang
  *
  */
+ 
 class notification_merchant_purview_api extends Component_Event_Api {
 
     public function call(&$options) {

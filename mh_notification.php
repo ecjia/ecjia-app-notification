@@ -54,9 +54,9 @@ class mh_notification extends ecjia_merchant {
 			}
 		}
 		$count = RC_DB::table('notifications')
-			->select(RC_DB::raw('count(*) as count'), RC_DB::raw('SUM(IF(read_at != "", 0, 1)) as not_read'))
-			->where('notifiable_id', $_SESSION['staff_id'])
-			->first();
+    			->select(RC_DB::raw('count(*) as count'), RC_DB::raw('SUM(IF(read_at != "", 0, 1)) as not_read'))
+    			->where('notifiable_id', $_SESSION['staff_id'])
+    			->first();
 
 		$this->assign('count', $count);
 		$this->assign('list', $type_list);
@@ -79,7 +79,7 @@ class mh_notification extends ecjia_merchant {
 			$notice_list = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id'])->whereNull('read_at')->get();
 			if (!empty($notice_list)) {
 				foreach ($notice_list as $v) {
-					$arr = json_decode($v['data'], true);
+					$arr   = json_decode($v['data'], true);
 					$title = $arr['body'];
 					ecjia_merchant::admin_log($title, 'batch_mark', 'notice');
 				}
@@ -91,7 +91,7 @@ class mh_notification extends ecjia_merchant {
 				$notice_list = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id'])->where('type', $type)->whereNull('read_at')->get();
 				if (!empty($notice_list)) {
 					foreach ($notice_list as $v) {
-						$arr = json_decode($v['data'], true);
+						$arr   = json_decode($v['data'], true);
 						$title = $arr['body'];
 						ecjia_merchant::admin_log($title, 'batch_mark', 'notice');
 					}
@@ -100,10 +100,10 @@ class mh_notification extends ecjia_merchant {
 				$update = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id'])->where('type', $type)->whereNull('read_at')->update($data);
 			} else {
 				//标记单个
-				$id = isset($_POST['val']) ? $_POST['val'] : '';
-				$info = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id'])->where('id', $id)->whereNull('read_at')->first();
-				$arr = json_decode($info['data'], true);
-				$title = $arr['body'];
+				$id     = isset($_POST['val']) ? $_POST['val'] : '';
+				$info   = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id'])->where('id', $id)->whereNull('read_at')->first();
+				$arr    = json_decode($info['data'], true);
+				$title  = $arr['body'];
 				ecjia_merchant::admin_log($title, 'mark', 'notice');
 				
 				if (!empty($id)) {
