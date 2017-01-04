@@ -1,9 +1,10 @@
 <?php
+defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 通知
  * by wutifang
  */
-defined('IN_ECJIA') or exit('No permission resources.');
 
 class mh_notification extends ecjia_merchant {
 	public function __construct() {
@@ -135,4 +136,5 @@ class mh_notification extends ecjia_merchant {
 			}
 		}
 	}}
+	
 //end

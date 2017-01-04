@@ -1,9 +1,10 @@
 <?php
+defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 通知
  * by wutifang
  */
-defined('IN_ECJIA') or exit('No permission resources.');
 
 class admin extends ecjia_admin {
 	public function __construct() {
@@ -14,7 +15,6 @@ class admin extends ecjia_admin {
 		
 		RC_Script::enqueue_script('notification', RC_App::apps_url('statics/js/notification.js', __FILE__));
 		RC_Style::enqueue_style('notification', RC_App::apps_url('statics/css/notification.css', __FILE__), array());
-		
 	}
 
 	/**
@@ -135,4 +135,5 @@ class admin extends ecjia_admin {
 			}
 		}
 	}}
+	
 //end

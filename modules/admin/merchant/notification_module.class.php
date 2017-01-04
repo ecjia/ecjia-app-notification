@@ -1,5 +1,6 @@
 <?php
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 消息中心
  * @author will.chen
@@ -53,4 +54,5 @@ class notification_module extends api_admin implements api_interface {
 		return array('data' => $notifications_list, 'pager' => $pager);
 	 }	
 }
+
 // end

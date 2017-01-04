@@ -1,5 +1,6 @@
 <?php
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 消息中心标记为已读
  * @author will.chen
@@ -37,4 +38,5 @@ class read_module extends api_admin implements api_interface {
 		return array();
 	 }	
 }
+
 // end

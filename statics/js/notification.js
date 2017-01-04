@@ -37,9 +37,6 @@
 			});
 		},
 	};
-	
-	
 })(ecjia.admin, jQuery);
-
 
 // end

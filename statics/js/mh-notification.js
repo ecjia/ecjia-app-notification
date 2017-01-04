@@ -37,9 +37,6 @@
 			});
 		},
 	};
-	
-	
 })(ecjia.merchant, jQuery);
-
 
 // end
