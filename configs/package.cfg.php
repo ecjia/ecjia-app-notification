@@ -4,7 +4,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 通知应用
  */
-
 return array(
 	'identifier' 	=> 'ecjia.notification',
 	'directory' 	=> 'notification',

@@ -5,7 +5,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 通知
  * by wutifang
  */
-
 class admin extends ecjia_admin {
 	public function __construct() {
 		parent::__construct();

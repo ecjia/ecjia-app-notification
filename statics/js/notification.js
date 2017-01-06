@@ -1,5 +1,4 @@
 // JavaScript Document
-
 ;(function(app, $) {
 	app.notice_list = {
 		init : function() {

@@ -5,7 +5,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 通知
  * by wutifang
  */
-
 class mh_notification extends ecjia_merchant {
 	public function __construct() {
 		parent::__construct();
