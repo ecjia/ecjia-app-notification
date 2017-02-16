@@ -66,6 +66,8 @@ class mh_notification extends ecjia_merchant {
 	 * 通知逻辑处理
 	 */
 	public function init() {
+	    $this->admin_priv('notification_manage');
+	    
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('通知'));
 
 		$status = !empty($_GET['status']) ? $_GET['status'] : 'all';
@@ -111,6 +113,8 @@ class mh_notification extends ecjia_merchant {
 	
 	//标记通知为已读
 	public function mark_read() {
+	    $this->admin_priv('notification_update', ecjia::MSGTYPE_JSON);
+	    
 		$time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::gmtime());
 		$data = array(
 			'read_at' => $time
