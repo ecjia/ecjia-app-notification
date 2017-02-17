@@ -96,6 +96,8 @@ class admin extends ecjia_admin {
 				}
 				$type_list[$k]['list']  = $list;
 				$type_list[$k]['count'] = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['admin_id'])->where('type', $v['type'])->whereNull('read_at')->count();
+				$type_list[$k]['type_title'] = $v['type'];
+				$type_list[$k]['type'] = mix_substr($v['type'], 15);
 			}
 		}
 		$count = RC_DB::table('notifications')
@@ -177,11 +179,13 @@ class admin extends ecjia_admin {
 			'60'		=>'分钟',
 			'1'			=>'秒'
 		);
-		foreach ($f as $k=>$v)    {
+		foreach ($f as $k => $v) {
 			if (0 != $c = floor($t/(int)$k)) {
 				return $c.$v.'前';
 			}
 		}
-	}}
+	}
+
+}
 	
 //end

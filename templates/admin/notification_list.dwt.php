@@ -21,7 +21,7 @@
 			<div class="chat_content">
 				<div class="chat_heading clearfix">
 					<span class="badge badge-danger">{$item.count}</span>
-					{$item.type}
+					{$item.type_title}
 					<a class="f_r toggle_view no-underline" href="{RC_Uri::url('notification/admin/mark_read')}{if $smarty.get.status}&status={$smarty.get.status}{/if}" data-type="{$item.type}" title="标记为已读">标记 {$item.type} 的当前通知为已读</a>
 				</div>
 				
