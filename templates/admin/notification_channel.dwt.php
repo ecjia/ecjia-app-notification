@@ -71,6 +71,7 @@
 				<!-- {/foreach} -->
 			</tbody>
 		</table>
+		<!-- {$list.page} -->
 	</div>
 </div>    
 <!-- {/block} -->
