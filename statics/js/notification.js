@@ -3,6 +3,8 @@
 	app.notice_list = {
 		init : function() {
 			app.notice_list.toggle_view();
+			app.notice_list.submit();
+			app.notice_list.switch_state();
 		},
 		
 		toggle_view : function (option) {
@@ -19,7 +21,6 @@
 				}
 				
 				var option = {'type' : type, 'val' : val};
-				
 				if (msg) {
 					smoke.confirm( msg , function(e){
 						if (e) {
@@ -35,6 +36,57 @@
 				}
 			});
 		},
+		
+		/* 支付方式编辑form提交 */
+        submit: function () {
+            var $form = $('form[name="editForm"]');
+            /* 给表单加入submit事件 */
+            var option = {
+                rules: {
+                	channel_name: {
+                        required: true,
+                    },
+                    channel_desc: {
+                        required: true,
+                        minlength: 6
+                    },
+                },
+                messages: {
+                	channel_name: {
+                        required: js_lang.channel_name_required,
+                    },
+                    channel_desc: {
+                        required: js_lang.channel_desc_required,
+                        minlength: js_lang.channel_desc_minlength,
+                    }
+                },
+                submitHandler: function () {
+                    $form.ajaxSubmit({
+                        dataType: "json",
+                        success: function (data) {
+                        	ecjia.admin.showmessage(data);
+                        }
+                    });
+                }
+            }
+            var options = $.extend(ecjia.admin.defaultOptions.validate, option);
+            $form.validate(options);
+        },
+
+        switch_state: function () {
+            $('.switch').on('click', function (e) {
+            	e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: $(this).attr('data-url'),
+                    data: '',
+                    dataType: "json",
+                    success: function (data) {
+                    	ecjia.admin.showmessage(data);
+                    }
+                });
+            });
+        },
 	};
 })(ecjia.admin, jQuery);
 
