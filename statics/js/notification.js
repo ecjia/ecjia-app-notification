@@ -3,7 +3,6 @@
 	app.notice_list = {
 		init : function() {
 			app.notice_list.toggle_view();
-			app.notice_list.submit();
 			app.notice_list.switch_state();
 		},
 		
@@ -37,42 +36,6 @@
 			});
 		},
 		
-		/* 支付方式编辑form提交 */
-        submit: function () {
-            var $form = $('form[name="editForm"]');
-            /* 给表单加入submit事件 */
-            var option = {
-                rules: {
-                	channel_name: {
-                        required: true,
-                    },
-                    channel_desc: {
-                        required: true,
-                        minlength: 6
-                    },
-                },
-                messages: {
-                	channel_name: {
-                        required: js_lang.channel_name_required,
-                    },
-                    channel_desc: {
-                        required: js_lang.channel_desc_required,
-                        minlength: js_lang.channel_desc_minlength,
-                    }
-                },
-                submitHandler: function () {
-                    $form.ajaxSubmit({
-                        dataType: "json",
-                        success: function (data) {
-                        	ecjia.admin.showmessage(data);
-                        }
-                    });
-                }
-            }
-            var options = $.extend(ecjia.admin.defaultOptions.validate, option);
-            $form.validate(options);
-        },
-
         switch_state: function () {
             $('.switch').on('click', function (e) {
             	e.preventDefault();
@@ -87,6 +50,48 @@
                 });
             });
         },
+	};
+	
+	app.notice_edit = {
+		init : function() {
+			app.notice_edit.submit();
+		},
+		
+		/* 编辑form提交 */
+	    submit: function() {
+	        var $form = $('form[name="editForm"]');
+	        /* 给表单加入submit事件 */
+	        var option = {
+	            rules: {
+	            	channel_name: {
+	                    required: true,
+	                },
+	                channel_desc: {
+	                    required: true,
+	                    minlength: 6
+	                },
+	            },
+	            messages: {
+	            	channel_name: {
+	                    required: js_lang.channel_name_required,
+	                },
+	                channel_desc: {
+	                    required: js_lang.channel_desc_required,
+	                    minlength: js_lang.channel_desc_minlength,
+	                }
+	            },
+	            submitHandler: function () {
+	                $form.ajaxSubmit({
+	                    dataType: "json",
+	                    success: function (data) {
+	                    	ecjia.admin.showmessage(data);
+	                    }
+	                });
+	            }
+	        }
+	        var options = $.extend(ecjia.admin.defaultOptions.validate, option);
+	        $form.validate(options);
+	    },
 	};
 })(ecjia.admin, jQuery);
 

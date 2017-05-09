@@ -3,7 +3,7 @@
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-	ecjia.admin.notice_list.init();
+	ecjia.admin.notice_edit.init();
 </script>
 <!-- {/block} -->
 
