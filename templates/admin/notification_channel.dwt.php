@@ -25,7 +25,7 @@
 		<table class="table table-striped table-hide-edit" data-rowlink="a">
 			<thead>
 				<tr>
-					<th class="w100">{lang key='notification::notification.name'}</th>
+					<th class="w150">{lang key='notification::notification.name'}</th>
 					<th>{lang key='notification::notification.desc'}</th>
 					<th class="w80">{lang key='notification::notification.sort_order'}</th>
 					<th class="w80">{lang key='notification::notification.is_enabled'}</th>
