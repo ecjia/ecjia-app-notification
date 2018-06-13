@@ -2,9 +2,9 @@
 
 namespace Ecjia\App\Notification;
 
-use Royalcms\Component\App\AppServiceProvider;
+use Royalcms\Component\App\AppParentServiceProvider;
 
-class NotificationServiceProvider extends  AppServiceProvider
+class NotificationServiceProvider extends  AppParentServiceProvider
 {
     
     public function boot()
