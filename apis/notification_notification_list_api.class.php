@@ -35,11 +35,11 @@ class notification_notification_list_api extends Component_Event_Api {
 		if ($options['type'] == 'user') {
 			$type = array(
 					'Ecjia\System\Notifications\OrderShipped',
-					'Ecjia\System\Notifications\UserAccountChange',
-					'Ecjia\System\Notifications\RefundBalanceArrived',
-					'Ecjia\System\Notifications\GroupbuyActivitySucceed',
-					'Ecjia\System\Notifications\OrderPickup',
-					'Ecjia\System\Notifications\OrderPickupSuccess',
+					'Ecjia\App\Finance\Notifications\UserAccountChange',
+					'Ecjia\App\Refund\Notifications\RefundBalanceArrived',
+					'Ecjia\App\Groupbuy\Notifications\GroupbuyActivitySucceed',
+					'Ecjia\App\Orders\Notifications\OrderPickup',
+					'Ecjia\App\Orders\Notifications\OrderPickupSuccess',
 			);
 		} else {
 			$type = array(
@@ -83,11 +83,11 @@ class notification_notification_list_api extends Component_Event_Api {
 	    	    'Ecjia\System\Notifications\OrderPay' 				=> 'order_pay',
 	    	    'Ecjia\System\Notifications\OrderPlaced' 			=> 'order_placed',
 	    	    'Ecjia\System\Notifications\OrderShipped' 			=> 'order_shipped',
-				'Ecjia\System\Notifications\UserAccountChange' 		=> 'account_change',
-				'Ecjia\System\Notifications\RefundBalanceArrived' 	=> 'refund_arrived',
-				'Ecjia\System\Notifications\GroupbuyActivitySucceed'=> 'groupbuy_succeed',
-				'Ecjia\System\Notifications\OrderPickup' 			=> 'order_pickupcode',
-				'Ecjia\System\Notifications\OrderPickupSuccess' 	=> 'order_pickup_succeed',
+				'Ecjia\App\Finance\Notifications\UserAccountChange' => 'account_change',
+				'Ecjia\App\Refund\Notifications\RefundBalanceArrived' 	=> 'refund_arrived',
+				'Ecjia\App\Groupbuy\Notifications\GroupbuyActivitySucceed'=> 'groupbuy_succeed',
+				'Ecjia\App\Orders\Notifications\OrderPickup' 			=> 'order_pickupcode',
+				'Ecjia\App\Orders\Notifications\OrderPickupSuccess' 	=> 'order_pickup_succeed',
     	);
 		
 		if (!empty($list)) {
