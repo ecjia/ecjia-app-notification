@@ -9,7 +9,7 @@ class NotificationServiceProvider extends  AppParentServiceProvider
     
     public function boot()
     {
-        $this->package('ecjia/app-notification');
+        $this->package('ecjia/app-notification', null, dirname(__DIR__));
     }
     
     public function register()
