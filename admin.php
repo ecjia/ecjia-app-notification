@@ -75,7 +75,7 @@ class admin extends ecjia_admin {
 		if ($status == 'not_read') {
 			$db_notifications->whereNull('read_at');
 		}
-		$type_list = $db_notifications->select('distinct type')->get();
+		$type_list = $db_notifications->select(RC_DB::raw('distinct type'))->get();
 		if (!empty($type_list)) {
 			foreach ($type_list as $k => $v) {
 				
