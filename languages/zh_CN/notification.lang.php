@@ -50,41 +50,41 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJIA  通知语言包
  */
 return array(
-	'notification' 			=> '通知',
-	'notification_channel'	=> '通知渠道',
-	'notification_list'		=> '通知列表',
-			
-	'enable' 		=> '启用',
-	'disable' 		=> '禁用',
-	'plugin'		=> '插件',
-	'disabled'		=> '已停用',
-	'enabled'		=> '已启用',
-		
-	'js_lang' => array(
-		'channel_name_required'		=> '请输入通知渠道名称',
-		'channel_desc_required'		=> '请输入描述',
-		'channel_desc_minlength'	=> '描述长度不能小于6',
-	),
-		
-	'edit_ok' 					=> '编辑成功',
-	'install_ok' 				=> '安装成功',
-	'name_is_null' 				=> '请输入通知渠道名称',
-	'name_exists' 				=> '该通知渠道名称已存在',
-	'edit_channel_name'			=> '编辑名称',
-	'edit_channel_sort'			=> '编辑排序',
-		
-	'edit_notification_channel'	=> '编辑通知渠道',
-	'label_name'				=> '名称：',
-	'label_desc'				=> '描述：',	
-	'channel_name_required'		=> '请输入通知渠道名称',
-	'notification_channel_group'=> '通知渠道组',
-	'sms'						=> '短信',
-	'mail'						=> '邮件',
-	'name'						=> '名称',
-	'desc'						=> '描述',
-	'sort_order'				=> '排序',
-	'is_enabled'				=> '是否开启',
-	'number_required'			=> '请输入数字类型的排序值',
+    'notification' => '通知',
+    'notification_channel' => '通知渠道',
+    'notification_list' => '通知列表',
+
+    'enable' => '启用',
+    'disable' => '禁用',
+    'plugin' => '插件',
+    'disabled' => '已停用',
+    'enabled' => '已启用',
+
+    'js_lang' => array(
+        'channel_name_required' => '请输入通知渠道名称',
+        'channel_desc_required' => '请输入描述',
+        'channel_desc_minlength' => '描述长度不能小于6',
+    ),
+
+    'edit_ok' => '编辑成功',
+    'install_ok' => '安装成功',
+    'name_is_null' => '请输入通知渠道名称',
+    'name_exists' => '该通知渠道名称已存在',
+    'edit_channel_name' => '编辑名称',
+    'edit_channel_sort' => '编辑排序',
+
+    'edit_notification_channel' => '编辑通知渠道',
+    'label_name' => '名称：',
+    'label_desc' => '描述：',
+    'channel_name_required' => '请输入通知渠道名称',
+    'notification_channel_group' => '通知渠道组',
+    'sms' => '短信',
+    'mail' => '邮件',
+    'name' => '名称',
+    'desc' => '描述',
+    'sort_order' => '排序',
+    'is_enabled' => '是否开启',
+    'number_required' => '请输入数字类型的排序值',
 );
 
 // end
