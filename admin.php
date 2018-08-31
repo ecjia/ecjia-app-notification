@@ -89,7 +89,7 @@ class admin extends ecjia_admin
             'read_at' => $time,
         );
         $type = isset($_POST['type']) ? $_POST['type'] : '';
-        $status = !empty($_GET['status']) ? $_GET['status'] : 'all';
+        $status = !empty($_GET['status']) ? $_GET['status'] : 'not_read';
         $page = !empty($_GET['page']) ? intval($_GET['page']) : 1;
         $page_size = 20;
 
@@ -151,7 +151,7 @@ class admin extends ecjia_admin
 
     private function get_notification_list()
     {
-        $status = !empty($_GET['status']) ? $_GET['status'] : 'all';
+        $status = !empty($_GET['status']) ? $_GET['status'] : 'not_read';
 
         $db_notifications = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['admin_id']);
         if ($status == 'not_read') {
