@@ -72,12 +72,12 @@
 				</div>
 			</div>
 			<ul class="chat_user_list">
-				<li class="{if $smarty.get.status eq 'not_read'}active{/if}">
+				<li class="{if $smarty.get.status eq 'not_read' || !$smarty.get.status}active{/if}">
 					<a class="data-pjax" href="{RC_Uri::url('notification/admin/init')}&status=not_read" title="未读通知">未读通知</a>
 					<span class="badge badge-danger">{$list.type_count.not_read}</span>
 				</li>
 
-				<li class="{if $smarty.get.status eq 'all' || !$smarty.get.status}active{/if}">
+				<li class="{if $smarty.get.status eq 'all'}active{/if}">
 					<a class="data-pjax" href="{RC_Uri::url('notification/admin/init')}&status=all" title="所有通知">所有通知</a>
 					<span class="badge badge-primary">{$list.type_count.count}</span>
 				</li>

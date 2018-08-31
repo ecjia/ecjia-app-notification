@@ -64,12 +64,12 @@
 					<a class="btn btn-success btn-block m_b10 toggle_view" href="{RC_Uri::url('notification/mh_notification/mark_read')}{if $smarty.get.status}&status={$smarty.get.status}{/if}{if $smarty.get.page}&page={$smarty.get.page}{/if}"
 					    data-type="mark_all" title="标记为已读">标记所有为已读</a>
 					<ul class="list-group">
-						<li class="list-group-item {if $smarty.get.status eq 'not_read'}list-group-item-info{/if}">
+						<li class="list-group-item {if $smarty.get.status eq 'not_read' || !$smarty.get.status}list-group-item-info{/if}">
 							<a class="data-pjax" href="{RC_Uri::url('notification/mh_notification/init')}&status=not_read" title="未读通知">未读通知</a>
 							<span class="badge badge-danger">{$list.type_count.not_read}</span>
 						</li>
 
-						<li class="list-group-item {if $smarty.get.status eq 'all' || !$smarty.get.status}list-group-item-info{/if}">
+						<li class="list-group-item {if $smarty.get.status eq 'all'}list-group-item-info{/if}">
 							<a class="data-pjax" href="{RC_Uri::url('notification/mh_notification/init')}&status=all" title="所有通知">所有通知</a>
 							<span class="badge badge-primary">{$list.type_count.count}</span>
 						</li>
