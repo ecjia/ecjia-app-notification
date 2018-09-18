@@ -47,45 +47,43 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 消息中心
- * @author will.chen
+ * 用户消息中心数量
  */
-class user_notifications_module  extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+class user_notification_count_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {    
     	
     	$this->authSession();
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
+        if ($_SESSION['user_id'] <= 0) {
+            return new ecjia_error(100, 'Invalid session');
+        }
+        
+       $type = array(
+            'Ecjia\System\Notifications\OrderShipped',
+            'Ecjia\App\Finance\Notifications\UserAccountChange',
+            'Ecjia\App\Refund\Notifications\RefundBalanceArrived',
+            'Ecjia\App\Groupbuy\Notifications\GroupbuyActivitySucceed',
+            'Ecjia\App\Orders\Notifications\OrderPickup',
+            'Ecjia\App\Orders\Notifications\OrderPickupSuccess',
+        );
+        
+        $unread_count  = RC_DB::table('notifications')
+            ->whereIn('type', $type)
+            ->where('notifiable_id', $_SESSION['user_id'])
+            ->whereRaw("(read_at is null or read_at ='')")
+            ->count();
+
+         $readed_count  = RC_DB::table('notifications')
+            ->whereIn('type', $type)
+            ->where('notifiable_id', $_SESSION['user_id'])
+            ->whereRaw("(read_at is not null or read_at !='')")
+            ->count();
     	
-    	$size      = $this->requestData('pagination.count', 15);
-    	$page      = $this->requestData('pagination.page', 1);
-        $status    = $this->requestData('status', '');
-    	
-    	$options = array(
-    			'page'			=> empty($page) ? 1 : $page,
-    			'size'			=> empty($size)	? 15 : $size,
-    			'type'			=> 'user',
-    			'notifiable_id'	=> $_SESSION['user_id'],
-                'status'        => $status
-    	);
-    	
-    	$notifications_list = array();
-    	
-    	$notifications_result = RC_Api::api('notification', 'notification_list', $options);
-    	
-    	if (!empty($notifications_result['list'])) {
-    		$notifications_list = $notifications_result['list'];
-    		$pager = $notifications_result['page'];
-    	} else {
-    		$pager = array(
-    				'total' => 0,
-    				'count' => 0,
-    				'more'	=> 0,
-    		);
-    	}
-		
-		return array('data' => $notifications_list, 'pager' => $pager);
+        $total_count = 	RC_DB::table('notifications')
+            ->whereIn('type', $type)
+            ->where('notifiable_id', $_SESSION['user_id'])
+            ->count();
+
+		return array('unread_count' => $unread_count, 'readed_count' => $readed_count, 'total_count' => $total_count);
 	 }	
 }
 
