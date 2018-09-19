@@ -101,7 +101,6 @@ class admin_merchant_notification_module extends api_admin implements api_interf
         $notifications_list = array();
         
         if (!empty($notifications_result)) {
-        	$express_order_db = RC_Model::model('express/express_order_viewmodel');
         	foreach ($notifications_result as $val) {
         		$data = json_decode($val['data'], true);
         		
