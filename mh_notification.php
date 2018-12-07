@@ -97,7 +97,7 @@ class mh_notification extends ecjia_merchant
         $pjax_status = $status;
         //标记全部
         if ($type == 'mark_all') {
-            $db_notifications = RC_DB::table('notifications');
+            $db_notifications = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id']);
 
             if ($status == 'not_read') {
                 $db_notifications->whereNull('read_at');
@@ -107,9 +107,6 @@ class mh_notification extends ecjia_merchant
                 $db_notifications->where('type', $status);
             }
 
-            if ($_SESSION['action_list'] != 'all') {
-                $db_notifications->where('notifiable_id', $_SESSION['staff_user']);
-            }
             $notice_list = $db_notifications->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->take($page_size)->skip(($page - 1) * $page_size)->orderby('created_at', 'desc')->get();
             $id_list     = [];
             if (!empty($notice_list)) {
@@ -121,18 +118,12 @@ class mh_notification extends ecjia_merchant
                 }
             }
 
-            $db = RC_DB::table('notifications');
-            if ($_SESSION['action_list'] != 'all') {
-                $db->where('notifiable_id', $_SESSION['staff_user']);
-            }
+            $db = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id']);
             $update = $db->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->whereNull('read_at')->whereIn('id', $id_list)->update($data);
         } else {
             //标记该类型下全部通知为已读
             if (!empty($type)) {
-                $db_notifications = RC_DB::table('notifications');
-                if ($_SESSION['action_list'] != 'all') {
-                    $db_notifications->where('notifiable_id', $_SESSION['staff_user']);
-                }
+                $db_notifications = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id']);
                 $notice_list = $db_notifications->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->whereRaw('type = ' . "'$type'")->whereNull('read_at')->get();
                 if (!empty($notice_list)) {
                     foreach ($notice_list as $v) {
@@ -142,29 +133,20 @@ class mh_notification extends ecjia_merchant
                     }
                 }
 
-                $db = RC_DB::table('notifications');
-                if ($_SESSION['action_list'] != 'all') {
-                    $db->where('notifiable_id', $_SESSION['staff_user']);
-                }
+                $db = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id']);
                 $update = $db->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->whereRaw('type = ' . "'$type'")->whereNull('read_at')->update($data);
             } else {
                 //标记单个
                 $id    = isset($_POST['val']) ? $_POST['val'] : '';
 
-                $db_notifications = RC_DB::table('notifications');
-                if ($_SESSION['action_list'] != 'all') {
-                    $db_notifications->where('notifiable_id', $_SESSION['staff_user']);
-                }
+                $db_notifications = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id']);
                 $info  = $db_notifications->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('id', $id)->whereNull('read_at')->first();
                 $arr   = json_decode($info['data'], true);
                 $title = $arr['body'];
                 ecjia_admin::admin_log($title, 'mark', 'notice');
 
                 if (!empty($id)) {
-                    $db = RC_DB::table('notifications');
-                    if ($_SESSION['action_list'] != 'all') {
-                        $db->where('notifiable_id', $_SESSION['staff_user']);
-                    }
+                    $db = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id']);
                     $update = $db->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('id', $id)->whereNull('read_at')->update($data);
                 }
             }
@@ -178,82 +160,41 @@ class mh_notification extends ecjia_merchant
 
     private function get_notification_list()
     {
-        //超级管理员
-        if ($_SESSION['action_list'] == 'all') {
-            $db = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model']);
+        $db = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_id']);
 
-            $status = !empty($_GET['status']) ? $_GET['status'] : 'not_read';
+        $status = !empty($_GET['status']) ? $_GET['status'] : 'not_read';
 
-            $db->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model']);
-            if ($status == 'not_read') {
-                $db->whereNull('read_at');
-            } elseif ($status != 'all') {
-                //按类型筛选
-                $status = str_replace('-', "\\", $status);
-                $db->where('type', $status);
-            }
+        $db->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model']);
+        if ($status == 'not_read') {
+            $db->whereNull('read_at');
+        } elseif ($status != 'all') {
+            //按类型筛选
+            $status = str_replace('-', "\\", $status);
+            $db->where('type', $status);
+        }
 
-            $type_count['count'] = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->count();
-            $type_count['not_read'] = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->whereNull('read_at')->count();
+        $type_count['count'] = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_id'])->count();
+        $type_count['not_read'] = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_id'])->whereNull('read_at')->count();
 
-            $page_size = 20;
-            $count     = $db->count();
-            $page      = new ecjia_merchant_page($count, $page_size, 5);
-            $data      = $db->select('*')->take($page_size)->skip($page->start_id - 1)->orderby('created_at', 'desc')->get();
+        $page_size = 20;
+        $count     = $db->count();
+        $page      = new ecjia_merchant_page($count, $page_size, 5);
+        $data      = $db->select('*')->take($page_size)->skip($page->start_id - 1)->orderby('created_at', 'desc')->get();
 
-            //通知类型
-            $type_list = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->select(RC_DB::raw('distinct type'))->get();
-            if (!empty($type_list)) {
-                foreach ($type_list as $k => $v) {
-                    $list = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->select('*')->where('type', $v['type'])->orderby('created_at', 'desc')->get();
-                    if (!empty($list)) {
-                        foreach ($list as $key => $val) {
-                            $arr                         = json_decode($val['data'], true);
-                            $type_list[$k]['type_title'] = $arr['title'];
-                        }
+        //通知类型
+        $type_list = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_id'])->select(RC_DB::raw('distinct type'))->get();
+        if (!empty($type_list)) {
+            foreach ($type_list as $k => $v) {
+                $list = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_id'])->select('*')->where('type', $v['type'])->orderby('created_at', 'desc')->get();
+                if (!empty($list)) {
+                    foreach ($list as $key => $val) {
+                        $arr                         = json_decode($val['data'], true);
+                        $type_list[$k]['type_title'] = $arr['title'];
                     }
-                    $type_list[$k]['count']             = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->select('*')->where('type', $v['type'])->count();
-                    $type_list[$k]['type']              = str_replace("\\", '-', $v['type']);
-                    $type_list[$k]['notice_type_title'] = mix_substr($type_list[$k]['type_title'], 15);
                 }
-            }
-        } else {
-            $db = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_user']);
-
-            $status = !empty($_GET['status']) ? $_GET['status'] : 'not_read';
-
-            $db->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model']);
-            if ($status == 'not_read') {
-                $db->whereNull('read_at');
-            } elseif ($status != 'all') {
-                //按类型筛选
-                $status = str_replace('-', "\\", $status);
-                $db->where('type', $status);
-            }
-
-            $type_count['count'] = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_user'])->count();
-            $type_count['not_read'] = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_user'])->whereNull('read_at')->count();
-
-            $page_size = 20;
-            $count     = $db->count();
-            $page      = new ecjia_page($count, $page_size, 5);
-            $data      = $db->select('*')->take($page_size)->skip($page->start_id - 1)->orderby('created_at', 'desc')->get();
-
-            //通知类型
-            $type_list = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_user'])->select(RC_DB::raw('distinct type'))->get();
-            if (!empty($type_list)) {
-                foreach ($type_list as $k => $v) {
-                    $list = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_user'])->select('*')->where('type', $v['type'])->orderby('created_at', 'desc')->get();
-                    if (!empty($list)) {
-                        foreach ($list as $key => $val) {
-                            $arr                         = json_decode($val['data'], true);
-                            $type_list[$k]['type_title'] = $arr['title'];
-                        }
-                    }
-                    $type_list[$k]['count']             = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_user'])->select('*')->where('type', $v['type'])->count();
-                    $type_list[$k]['type']              = str_replace("\\", '-', $v['type']);
-                    $type_list[$k]['notice_type_title'] = mix_substr($type_list[$k]['type_title'], 15);
-                }
+                $type_list[$k]['count']             = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_id'])->select('*')->where('type', $v['type'])->count();
+                $type_list[$k]['type']              = str_replace("\\", '-', $v['type']);
+                $type_list[$k]['notice_type_title'] = mix_substr($type_list[$k]['type_title'], 15);
             }
         }
 
